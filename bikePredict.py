@@ -1,6 +1,5 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from holoviews.plotting.bokeh.styles import marker
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
@@ -35,15 +34,15 @@ def data_processor():
     print(feature_list)
     return feature_list, data_set
 
-def model_train_predict(x_train, x_test, y_train, y_test):
+def model_train_predict(x_train, x_test_feature, y_train):
     # 初始化模型
     model_lr = linear_model.LinearRegression()
 
     # 训练模型
-    model_lr.fit(x, y)
+    model_lr.fit(x_train, y_train)
 
     # 模型预测
-    predictions = model_lr.predict(x_test)
+    predictions = model_lr.predict(x_test_feature)
     print('predictions.shape:', predictions.shape)
     return predictions
 
@@ -80,7 +79,7 @@ if __name__ == '__main__':
     print('x(测试集特征) shape is: {}'.format(x_test.shape))
     print('y(测试集标签) shape is: {}'.format(y_test.shape))
 
-    prediction_data = model_train_predict(x, x_test, y, y_test)
+    prediction_data = model_train_predict(x, x_test, y)
 
     # 绘制预测值与测试集中的真实值的对比曲线
     draw_linear_regression(y_test, prediction_data)
